@@ -61,12 +61,12 @@ $$\psi_{\pm}(t,x) = \mathring{\psi_{\pm}}(x \pm t) - \frac{\omega }{2}\int_{x-t}
 $j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
 Initial positions are sampled from $j_0(x,0)$, which is a Gaussian with standard deviation $\sigma$.
 
-**Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)\,e^{i(\Phi-\Omega)/2}$ and
-$\psi_+ = R\sin(\Theta/2)\,e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
+**Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)e^{i(\Phi-\Omega)/2}$ and
+$\psi_+ = R\sin(\Theta/2)e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
 velocity is $v = \cos\Theta$. The momentum and energy of a trajectory are read off from the
 Bloch vector of a free plane-wave eigenspinor, $(m, 0, p)/E$:
 
-$$p = m\cot\Theta\,\sec\Omega, \qquad E = \frac{m}{\sin\Theta\cos\Omega}.$$
+$$p = m\cot\Theta\,\sec\Omega, \qquad E = m\csc\Theta\,\sec\Omega.$$
 
 **What the paper shows.** At large times the wave function is approximately a superposition of two
 wave packets traveling in opposite directions. The trajectories then have approximately constant
