@@ -45,14 +45,17 @@ the code) that solves the free Dirac equation in one space dimension,
 $$(\partial_t + \partial_x)\, \psi_- = -i m\, \psi_+, \qquad (\partial_t - \partial_x)\, \psi_+ = -i m\, \psi_-.$$
 
 **Initial data.** A Gaussian packet with mean momentum $k$ and width $\sigma$, with a spinor
-described by two Bloch-sphere angles $(\theta, \omega)$:
+described by two Bloch-sphere angles $(\Theta, \Omega)$:
 
-$$\psi(x,0) = \mathring{\psi}(x) = \begin{pmatrix}\cos(\theta/2)e^{i\omega/2}\\ \sin(\theta/2)e^{-i\omega/2}\end{pmatrix} \frac{1}{(2\pi\sigma^2)^{1/4}}\, e^{-x^2/(4\sigma^2) + ikx}.$$
+$$\mathring{\psi}(x) = \begin{pmatrix}
+     \cos\frac{\Theta_0}{2}e^{i\Omega_0/2}\\[5pt]
+     \sin\frac{\Theta_0}{2}e^{-i\Omega_0/2}
+ \end{pmatrix} \frac{1}{\sqrt[4]{2\pi \sigma^2}} e^{-\frac{x^2}{4\sigma^2} + ik_0s}.$$
 
 **Exact solution.** The solution is computed in closed form with Bessel kernels
 (with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,\,x+t]$):
 
-$$\psi_-(x,t) = \mathring{\psi_-}(x-t) - \frac{m}{2}\int \mathring{\psi_-}(r)\,\frac{J_1(m\rho)}{\rho}\,(t+x-r)\,dr - \frac{im}{2}\int \mathring{\psi_+}(r)\,J_0(m\rho)\,dr,$$\mathring{\psi_-}
+$$\psi_-(x,t) = \mathring{\psi_-}(x-t) - \frac{m}{2}\int \mathring{\psi_-}(r)\,\frac{J_1(m\rho)}{\rho}\,(t+x-r)\,dr - \frac{im}{2}\int \mathring{\psi_+}(r)\,J_0(m\rho)\,dr,$$
 
 and the same with $\mathring{\psi_-} \leftrightarrow \mathring{\psi_+}$, $\mathring{\psi_-}(x-t)\to \mathring{\psi_+}(x+t)$ and $(t+x-r)\to(t-x+r)$ for $\psi_+$.
 
