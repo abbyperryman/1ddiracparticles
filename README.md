@@ -14,9 +14,9 @@ This code was used to generate the figures in the paper
 > [arXiv:2512.21423](https://arxiv.org/abs/2512.21423).
 
 <p align="center">
-  <img src="electrontrajectoriesfortime3_k=10_theta=1.5707_m=1_sigma=1.png" width="32%" alt="Bohmian trajectories">
-  <img src="bloch_trajectory_x0=-1.05_tmax=3_k=10_theta=1.5707_omega=0_m=1_sigma=1.png" width="32%" alt="A trajectory on the Bloch sphere">
-  <img src="momentum_animation_t_3_N_100_k=10_theta=1.5707_omega=0_m=1_sigma=1.gif" width="32%" alt="Momentum histogram animation">
+  <img src="figures/electrontrajectoriesfortime3_k=10_theta=1.5707_m=1_sigma=1.png" width="32%" alt="Bohmian trajectories">
+  <img src="figures/bloch_trajectory_x0=-1.05_tmax=3_k=10_theta=1.5707_omega=0_m=1_sigma=1.png" width="32%" alt="A trajectory on the Bloch sphere">
+  <img src="figures/momentum_animation_t_3_N_100_k=10_theta=1.5707_omega=0_m=1_sigma=1.gif" width="32%" alt="Momentum histogram animation">
 </p>
 <p align="center"><em>
 Left: trajectories x(t). Middle: the spinor of one trajectory on the Bloch sphere.
