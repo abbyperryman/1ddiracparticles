@@ -66,7 +66,7 @@ $\psi_+ = R\sin(\Theta/2)e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, 
 velocity is $v = \cos\Theta$. The momentum and energy of a trajectory are read off from the
 Bloch vector of a free plane-wave eigenspinor, $(m, 0, p)/E$:
 
-$$p = m\cot\Theta\,\sec\Omega, \qquad E = m\csc\Theta\,\sec\Omega.$$
+$$p = m\cot\Theta\sec\Omega, \qquad E = m\csc\Theta\sec\Omega.$$
 
 **What the paper shows.** At large times the wave function is approximately a superposition of two
 wave packets traveling in opposite directions. The trajectories then have approximately constant
