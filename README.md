@@ -20,7 +20,7 @@ This code was used to generate the figures in the paper
 </p>
 <p align="center"><em>
 Left: trajectories x(t). Middle: the spinor of one trajectory on the Bloch sphere.
-Right: animated histogram of the momenta of 150 trajectories.
+Right: animated histogram of the momenta of 100 trajectories.
 All generated with <code>k = 10, m = 1, σ = 1, θ = π/2, ω = 0</code>.
 </em></p>
 
@@ -39,34 +39,31 @@ All generated with <code>k = 10, m = 1, σ = 1, θ = π/2, ω = 0</code>.
 
 ## Background
 
-Units are ħ = c = 1. The wave function is a two-component spinor ψ = (g, h) (called ψ₋ and ψ₊ in
+Units are ħ = c = 1. The wave function is a two-component spinor ψ = (ψ₋, ψ₊) (called g1 and h1 in
 the code) that solves the free Dirac equation in one space dimension,
 
-$$(\partial_t + \partial_x)\, g = -i m\, h, \qquad (\partial_t - \partial_x)\, h = -i m\, g,$$
-
-equivalently $i\partial_t \psi = (p\,\sigma_z + m\,\sigma_x)\,\psi$ with $p = -i\partial_x$, whose
-energies are $\pm\sqrt{p^2+m^2}$.
+$$(\partial_t + \partial_x)\, \psi_- = -i m\, \psi_+, \qquad (\partial_t - \partial_x)\, \psi_+ = -i m\, \psi_-.$$
 
 **Initial data.** A Gaussian packet with mean momentum $k$ and width $\sigma$, with a spinor
 described by two Bloch-sphere angles $(\theta, \omega)$:
 
-$$\psi(x,0) = \begin{pmatrix}\cos(\theta/2)\,e^{i\omega/2}\\ \sin(\theta/2)\,e^{-i\omega/2}\end{pmatrix}
+$$\psi(x,0) = \mathring{\psi}(x) = \begin{pmatrix}\cos(\theta/2)\,e^{i\omega/2}\\ \sin(\theta/2)\,e^{-i\omega/2}\end{pmatrix}
 \frac{1}{(2\pi\sigma^2)^{1/4}}\, e^{-x^2/(4\sigma^2) + ikx}.$$
 
 **Exact solution.** The solution is computed in closed form with Bessel kernels
 (with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,\,x+t]$):
 
-$$g(x,t) = g_0(x-t) - \frac{m}{2}\int g_0(r)\,\frac{J_1(m\rho)}{\rho}\,(t+x-r)\,dr
-- \frac{im}{2}\int h_0(r)\,J_0(m\rho)\,dr,$$
+$$\psi_-(x,t) = \mathring{\psi_-}(x-t) - \frac{m}{2}\int \mathring{\psi_-}(r)\,\frac{J_1(m\rho)}{\rho}\,(t+x-r)\,dr
+- \frac{im}{2}\int \mathring{\psi_+}(r)\,J_0(m\rho)\,dr,$$\mathring{\psi_-}
 
-and the same with $g_0 \leftrightarrow h_0$, $g_0(x-t)\to h_0(x+t)$ and $(t+x-r)\to(t-x+r)$ for $h$.
+and the same with $\mathring{\psi_-} \leftrightarrow \mathring{\psi_+}$, $\mathring{\psi_-}(x-t)\to \mathring{\psi_+}(x+t)$ and $(t+x-r)\to(t-x+r)$ for $\psi_+$.
 
 **Trajectories.** The particle's position solves $\dot{x} = j_1/j_0$, where
-$j_0 = |g|^2+|h|^2$ is the probability density and $j_1 = |g|^2-|h|^2$ the probability current.
+$j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
 Initial positions are sampled from $j_0(x,0)$, which is a Gaussian with standard deviation $\sigma$.
 
-**Bloch-sphere variables.** Writing $g = R\cos(\Theta/2)\,e^{i(\Phi-\Omega)/2}$ and
-$h = R\sin(\Theta/2)\,e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
+**Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)\,e^{i(\Phi-\Omega)/2}$ and
+$\psi_+ = R\sin(\Theta/2)\,e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
 velocity is $v = \cos\Theta$. The momentum and energy of a trajectory are read off from the
 Bloch vector of a free plane-wave eigenspinor, $(m, 0, p)/E$:
 
@@ -102,14 +99,14 @@ The code needs Python 3 and four packages: NumPy, SciPy, Matplotlib and Pillow (
 developed with Python 3.12.
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo>.git
-cd <your-repo>
+git clone https://github.com/abbyperryman/1ddiracparticles.git
+cd 1ddiracparticles
 pip install -r requirements.txt
 ```
 
 ## Quick start
 
-1. Open `1d_dirac_particles_code.py` and set the physical parameters at the top of the file
+1. Open `dirac_particles_code.py` and set the physical parameters at the top of the file
    (see [Parameters](#parameters)):
 
    ```python
@@ -121,25 +118,7 @@ pip install -r requirements.txt
    ```
 
 2. Call the functions you want, either at the bottom of the file under
-   `if __name__ == "__main__":` or from your own script or Python session. Because the file name
-   starts with a digit, `import 1d_dirac_particles_code` is a syntax error, so import it with
-   `importlib`:
-
-   ```python
-   import importlib
-
-   dirac = importlib.import_module("1d_dirac_particles_code")
-
-   dirac.plotTrajectories(4, N=20, seed=0, save_image=True)  # 20 sampled trajectories up to t = 4
-   dirac.plotTrajectories(4, x_init=[-1.0, 0.0, 1.0])        # or choose the starting points
-   dirac.plotTrajectoryMomenta(4, N=10, seed=0)              # momentum of each trajectory vs. time
-   dirac.momentum_animation(4, N=200, seed=0, frame_step=4)  # histogram GIF, saved to MomentumAnimations/
-   dirac.plotOnBlochSphere(0.3, tmax=4)                      # one trajectory on the Bloch sphere
-   ```
-
-   Running `python 1d_dirac_particles_code.py` executes whatever is under the `__main__` guard.
-   (Renaming the file to something that starts with a letter, such as `dirac_particles_1d.py`,
-   would allow a plain `from dirac_particles_1d import ...`.)
+   `if __name__ == "__main__":` or from your own script or Python session via `import dirac_particles_code`. 
 
 The parameters, plot titles and file names are set when the module is imported, so after changing
 a parameter, restart your Python session (or re-run the script) rather than reassigning it from
