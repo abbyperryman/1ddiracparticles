@@ -48,7 +48,7 @@ $$(\partial_t + \partial_x)\, \psi_- = -i m\, \psi_+, \qquad (\partial_t - \part
 described by two Bloch-sphere angles $(\Theta, \Omega)$:
 
 $$\mathring{\psi}(x) = \begin{pmatrix}
-     \cos\frac{\Theta_0}{2}e^{i\Omega_0/2}\\[5pt]
+     \cos\frac{\Theta_0}{2}e^{i\Omega_0/2}\\ 
      \sin\frac{\Theta_0}{2}e^{-i\Omega_0/2}
  \end{pmatrix} \frac{1}{\sqrt[4]{2\pi \sigma^2}} e^{-\frac{x^2}{4\sigma^2} + ik_0s}.$$
 
