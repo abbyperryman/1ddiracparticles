@@ -63,8 +63,7 @@ Initial positions are sampled from $j_0(x,0)$, which is a Gaussian with standard
 
 **Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)e^{i(\Phi-\Omega)/2}$ and
 $\psi_+ = R\sin(\Theta/2)e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
-velocity is $v = \cos\Theta$. The momentum and energy of a trajectory are read off from the
-Bloch vector of a free plane-wave eigenspinor, $(m, 0, p)/E$:
+velocity is $v = \cos\Theta$. The momentum and energy of a trajectory are:
 
 $$p = m\cot\Theta\sec\Omega, \qquad E = m\csc\Theta\sec\Omega.$$
 
@@ -73,7 +72,7 @@ wave packets traveling in opposite directions. The trajectories then have approx
 asymptotic momentum $k$ and asymptotic energy $\pm\sqrt{m^2+k^2}$. The sign of the energy is
 determined by the particle's initial position, and negative-energy particles move in the direction
 opposite to their momentum. The simulations here let you watch this happen: for example, the
-momentum histogram collapses onto $p \approx k$.
+momentum histogram collapses onto $p \approx k.$
 
 ## Features
 
