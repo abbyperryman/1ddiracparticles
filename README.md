@@ -42,7 +42,7 @@ All generated with <code>k = 10, m = 1, σ = 1, θ = π/2, ω = 0</code>.
 Units are ħ = c = 1. The wave function is a two-component spinor ψ = (ψ₋, ψ₊) (called g1 and h1 in
 the code) that solves the free Dirac equation in one space dimension,
 
-$$(\partial_t + \partial_x)\, \psi_- = -i m\, \psi_+, \qquad (\partial_t - \partial_x)\, \psi_+ = -i m\, \psi_-.$$
+$$(\partial_t + \partial_x) \psi_- = -i m \psi_+, \qquad (\partial_t - \partial_x) \psi_+ = -i m \psi_-.$$
 
 **Initial data.** A Gaussian packet with mean momentum $k$ and width $\sigma$, with a spinor
 described by two Bloch-sphere angles $(\Theta, \Omega)$:
@@ -55,7 +55,7 @@ $$\mathring{\psi}(x) = \begin{pmatrix}
 **Exact solution.** The solution is computed in closed form with Bessel kernels
 with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,s+t]$:
 
-$$\psi_{\pm}(t,x) = \mathring{\psi_{\pm}}(x \pm t) - \frac{\omega }{2}\int_{x-t}^{x+t}J_1\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right)\frac{\sqrt{t \mp (x- \sigma)}}{\sqrt{t \pm (x- \sigma)}}\mathring{\psi_{\pm}}(\sigma) \,d\sigma\nonumber - \frac{i\omega}{2} \int_{x-t}^{x+t} J_0\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right) \mathring{\psi_{\mp}}(\sigma) \,d\sigma.$$
+$$\psi_{\pm}(t,x) = \mathring{\psi_{\pm}}(x \pm t) - \frac{\omega }{2}\int_{x-t}^{x+t}J_1\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right)\frac{\sqrt{t \mp (x- \sigma)}}{\sqrt{t \pm (x- \sigma)}}\mathring{\psi_{\pm}}(\sigma) \,d\sigma\nonumber - \frac{i\omega}{2} \int_{x-t}^{x+t} J_0\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right) \mathring{\psi_{\mp}}(\sigma) d\sigma.$$
 
 **Trajectories.** The particle's position solves $\dot{x} = j_1/j_0$, where
 $j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
