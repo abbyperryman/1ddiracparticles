@@ -55,9 +55,7 @@ $$\mathring{\psi}(x) = \begin{pmatrix}
 **Exact solution.** The solution is computed in closed form with Bessel kernels
 (with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,\,x+t]$):
 
-$$\psi_-(x,t) = \mathring{\psi_-}(x-t) - \frac{m}{2}\int \mathring{\psi_-}(r)\,\frac{J_1(m\rho)}{\rho}\,(t+x-r)\,dr - \frac{im}{2}\int \mathring{\psi_+}(r)\,J_0(m\rho)\,dr,$$
-
-and the same with $\mathring{\psi_-} \leftrightarrow \mathring{\psi_+}$, $\mathring{\psi_-}(x-t)\to \mathring{\psi_+}(x+t)$ and $(t+x-r)\to(t-x+r)$ for $\psi_+$.
+$$\psi_{\pm}(t,s) &= \overset{\circ}{\psi_{\pm}}(s \pm t) \nonumber\\ &- \frac{\omega }{2}\int_{s-t}^{s+t} J_1\left(\omega\sqrt{t^2 - (s - \sigma)^2}\right)\frac{\sqrt{t \mp (s- \sigma)}}{\sqrt{t \pm (s- \sigma)}}\overset{\circ}{\psi_{\pm}}(\sigma) \,d\sigma\nonumber \\ &- \frac{i\omega}{2} \int_{s-t}^{s+t} J_0\left(\omega\sqrt{t^2 - (s - \sigma)^2}\right) \overset{\circ}{\psi_{\mp}}(\sigma) \,d\sigma\edit{,}.$$
 
 **Trajectories.** The particle's position solves $\dot{x} = j_1/j_0$, where
 $j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
