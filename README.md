@@ -53,13 +53,13 @@ $$\mathring{\psi}(x) = \begin{pmatrix}
  \end{pmatrix} \frac{1}{\sqrt[4]{2\pi \sigma^2}} e^{-\frac{x^2}{4\sigma^2} + ik_0s}.$$
 
 **Exact solution.** The solution is computed in closed form with Bessel kernels
-(with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,\,x+t]$):
+with $\rho = \sqrt{t^2-(x-r)^2}$ and both integrals over $r \in [x-t,\,s+t]$:
 
-$$\psi_{\pm}(t,s) &= \overset{\circ}{\psi_{\pm}}(s \pm t) \nonumber\\ &- \frac{\omega }{2}\int_{s-t}^{s+t} J_1\left(\omega\sqrt{t^2 - (s - \sigma)^2}\right)\frac{\sqrt{t \mp (s- \sigma)}}{\sqrt{t \pm (s- \sigma)}}\overset{\circ}{\psi_{\pm}}(\sigma) \,d\sigma\nonumber \\ &- \frac{i\omega}{2} \int_{s-t}^{s+t} J_0\left(\omega\sqrt{t^2 - (s - \sigma)^2}\right) \overset{\circ}{\psi_{\mp}}(\sigma) \,d\sigma\edit{,}.$$
+$$\psi_{\pm}(t,x) = \mathring{\psi_{\pm}}(x \pm t) - \frac{\omega }{2}\int_{x-t}^{x+t}J_1\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right)\frac{\sqrt{t \mp (x- \sigma)}}{\sqrt{t \pm (x- \sigma)}}\mathring{\psi_{\pm}}(\sigma) \,d\sigma\nonumber - \frac{i\omega}{2} \int_{x-t}^{x+t} J_0\left(\omega\sqrt{t^2 - (x - \sigma)^2}\right) \mathring{\psi_{\mp}}(\sigma) \,d\sigma\edit{,}.$$
 
 **Trajectories.** The particle's position solves $\dot{x} = j_1/j_0$, where
 $j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
-Initial positions are sampled from $j_0(x,0)$, which is a Gaussian with standard deviation $\sigma$.
+Initial positions are sampled from $j_0(,0)$, which is a Gaussian with standard deviation $\sigma$.
 
 **Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)\,e^{i(\Phi-\Omega)/2}$ and
 $\psi_+ = R\sin(\Theta/2)\,e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
