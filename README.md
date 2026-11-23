@@ -59,7 +59,7 @@ $$\psi_{\pm}(t,x) = \mathring{\psi_{\pm}}(x \pm t) - \frac{\omega }{2}\int_{x-t}
 
 **Trajectories.** The particle's position solves $\dot{x} = j_1/j_0$, where
 $j_0 = |\psi_-|^2+|\psi_+|^2$ is the probability density and $j_1 = |\psi_-|^2-|\psi_+|^2$ the probability current.
-Initial positions are sampled from $j_0(,0)$, which is a Gaussian with standard deviation $\sigma$.
+Initial positions are sampled from $j_0(x,0)$, which is a Gaussian with standard deviation $\sigma$.
 
 **Bloch-sphere variables.** Writing $\psi_- = R\cos(\Theta/2)\,e^{i(\Phi-\Omega)/2}$ and
 $\psi_+ = R\sin(\Theta/2)\,e^{i(\Phi+\Omega)/2}$ gives the variables $(R, \Theta, \Omega, \Phi)$. The
