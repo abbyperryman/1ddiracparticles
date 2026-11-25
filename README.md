@@ -297,5 +297,4 @@ If you use this code, please cite the paper:
 
 ## Authors
 
-Code by Abigail Perryman and Kabir Narayanan. The accompanying research is joint work with Kabir Narayanan and
-A. Shadi Tahvildar-Zadeh.
+Code by Abigail Perryman and Kabir Narayanan. The accompanying research is joint work with Professor A. Shadi Tahvildar-Zadeh.
