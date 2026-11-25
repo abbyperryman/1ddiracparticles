@@ -104,39 +104,72 @@ pip install -r requirements.txt
 
 ## Quick start
 
-1. Open `dirac_particles_code.py` and set the physical parameters at the top of the file
-   (see [Parameters](#parameters)):
+Create an `InitialParameters` object with the physical parameters and pass it to the functions you
+want to use:
 
-   ```python
-   k = 10             # central momentum of the packet
-   m_el = 1           # electron mass
-   theta = pi / 2     # initial Bloch-sphere polar angle
-   omega = 0          # initial Bloch-sphere azimuthal angle
-   sigma = 1          # width of the Gaussian
-   ```
+```python
+from numpy import pi
+from dirac_particles_code import (
+    InitialParameters, plotTrajectories, plotTrajectoryMomenta,
+    momentum_animation, plotOnBlochSphere,
+)
 
-2. Call the functions you want, either at the bottom of the file under
-   `if __name__ == "__main__":` or from your own script or Python session via `import dirac_particles_code`. 
+params = InitialParameters(k=10, m_el=1, theta=pi / 2, omega=0, sigma=1)
 
-The parameters, plot titles and file names are set when the module is imported, so after changing
-a parameter, restart your Python session (or re-run the script) rather than reassigning it from
-outside.
+plotTrajectories(4, params, N=20, seed=0, save_image=True)   # 20 sampled trajectories up to t = 4
+plotTrajectories(4, params, x_init=[-1.0, 0.0, 1.0])         # or choose the starting points
+plotTrajectoryMomenta(4, params, N=10, seed=0)               # momentum of each trajectory vs. time
+momentum_animation(4, params, N=200, seed=0, frame_step=4)   # histogram GIF, saved to MomentumAnimations/
+plotOnBlochSphere(0.3, params, tmax=4)                       # one trajectory on the Bloch sphere
+```
 
-## Parameters
+To start in a free-particle energy eigenstate instead of choosing `theta` and `omega` yourself:
+
+```python
+params = InitialParameters(k=10, m_el=1, sigma=1, eigenstate=+1)   # +1: E = +sqrt(k^2 + m^2)
+```
+
+Running `python dirac_particles_code.py` executes the example at the bottom of the file, under
+`if __name__ == "__main__":`. Edit that block to run whatever you like.
+
+## Parameters: the `InitialParameters` class
+
+```python
+InitialParameters(k, m_el, theta=None, omega=None, sigma=1, eigenstate=None)
+```
 
 | Parameter | Meaning | Notes |
 |---|---|---|
-| `m_el` | Electron mass | Units with ħ = c = 1. |
 | `k` | Mean momentum ("mean frequency" k₀) of the Gaussian packet | Either sign is supported. |
-| `sigma` | Standard deviation σ of the initial Gaussian in position | The canonical momentum distribution has standard deviation 1/(2σ). |
-| `theta` | Mixing angle θ, the polar Bloch angle of the initial spinor | Wrapped into [0, π]. |
-| `omega` | Second initial Bloch angle ω | The initial Bloch azimuth is Ω₀ = −ω (see [caveats](#conventions-and-caveats)). |
+| `m_el` | Electron mass | Must be positive. Units with ħ = c = 1. |
+| `theta` | Mixing angle θ, the polar Bloch angle of the initial spinor | Default π/2. See [angle reduction](#conventions-and-caveats). |
+| `omega` | Second initial Bloch angle ω | Default 0. The initial Bloch azimuth is Ω₀ = −ω. |
+| `sigma` | Standard deviation σ of the initial Gaussian in position | Default 1; must be positive. The canonical momentum distribution has standard deviation 1/(2σ). |
+| `eigenstate` | `+1` or `-1` to start in the energy eigenstate at momentum `k` | Sets `theta` and `omega` for you, so it cannot be combined with them. |
 
-The helper `eigenstate_angles(branch)` returns the `(theta, omega)` for which the initial spinor is
-a free-particle energy eigenstate at momentum `k`: `branch=+1` for energy +√(k²+m²) and
-`branch=-1` for −√(k²+m²). The titles label these cases as Θ₊ and Θ₋.
+With `eigenstate=+1` the initial spinor is the free-particle eigenstate with energy +√(k²+m²), and
+with `eigenstate=-1` it is the one with energy −√(k²+m²). The plot titles label these cases Θ₊
+and Θ₋.
+
+An instance also provides:
+
+| Member | What it is |
+|---|---|
+| `params.k`, `params.m_el`, `params.sigma`, `params.theta`, `params.omega` | The parameters (after angle reduction). |
+| `params.Omega0` | The initial Bloch azimuth, −ω. |
+| `params.title` | The plot title describing the parameters. |
+| `params.eigenstate_label` | `'pos'` or `'neg'` if the initial spinor is an energy eigenstate at momentum `k`, otherwise `'none'`. |
+| `params.eigenstate_angles(branch)` | The `(theta, omega)` of the eigenstate with `branch=+1` or `-1`. |
+| `params.param_tag()` | The string used in output file names, e.g. `k=10_theta=1.5707_omega=0_m=1_sigma=1`. |
+
+Treat an instance as read-only. The labels recompute if you change an attribute, but the angle
+reduction only runs when the object is created. Create a new `InitialParameters` instead.
 
 ## Function reference
+
+Every function that depends on the physical parameters takes a `params` argument. By convention it
+comes right after the function's required arguments and before its optional ones, as in
+`plotTrajectories(t, params, x_init=None, N=20, ...)`.
 
 Starting positions can be given explicitly with `x_init`; if it is left out, `N` positions are
 drawn from the initial density, optionally with a `seed`. Every plotting function takes
@@ -146,20 +179,20 @@ drawn from the initial density, optionally with a `seed`. Every plotting functio
 
 | Function | What it does |
 |---|---|
-| `plotTrajectories(t, x_init=None, N=20, seed=None)` | Plots x(t) for each trajectory and prints the mean final momentum and energy. |
-| `plotSpecificTrajectories(t, xlist)` | Same plot for an explicit list of starting positions. |
-| `plotTrajectoryVelocities(t, ...)` | Velocity (cos Θ) of each trajectory against time. |
-| `plotTrajectoryMomenta(t, ...)` | Momentum of each trajectory against time. |
-| `plotTrajectoryEnergies(t, ...)` | Energy of each trajectory against time. |
-| `plotTrajectoryLogMomentum(t, ...)`, `plotTrajectoryLogEnergy(t, ...)` | Signed-log versions, sign(·)·log(\|·\|+1), for quantities that span orders of magnitude. |
-| `rk4(x0=None, n=1000, t_max=5)` | One trajectory and its momentum, integrated with a hand-written RK4 loop. |
+| `plotTrajectories(t, params, x_init=None, N=20, seed=None)` | Plots x(t) for each trajectory and prints the mean final momentum and energy. |
+| `plotSpecificTrajectories(t, xlist, params)` | Same plot for an explicit list of starting positions. |
+| `plotTrajectoryVelocities(t, params, ...)` | Velocity (cos Θ) of each trajectory against time. |
+| `plotTrajectoryMomenta(t, params, ...)` | Momentum of each trajectory against time. |
+| `plotTrajectoryEnergies(t, params, ...)` | Energy of each trajectory against time. |
+| `plotTrajectoryLogMomentum(t, params, ...)`, `plotTrajectoryLogEnergy(t, params, ...)` | Signed-log versions, sign(·)·log(\|·\|+1), for quantities that span orders of magnitude. |
+| `rk4(params, x0=None, n=1000, t_max=5)` | One trajectory and its momentum, integrated with a hand-written RK4 loop. |
 
 ### Momentum histograms and animations
 
 | Function | What it does |
 |---|---|
-| `momentum_animation(t, N=100, x_init=None, ...)` | Animated histogram of the momenta of N trajectories, saved as a GIF. |
-| `animate_j0(t_max=3, n_frames=30, ..., save_gif=False)` | Animates the probability density j₀(x, t). |
+| `momentum_animation(t, params, N=100, x_init=None, ...)` | Animated histogram of the momenta of N trajectories, saved as a GIF. |
+| `animate_j0(params, t_max=3, n_frames=30, ..., save_gif=False)` | Animates the probability density j₀(x, t). |
 
 `momentum_animation` has a fixed, wide x-axis (centered on `k` by default) so that you can follow
 how the histogram moves. It overlays the canonical momentum distribution N·|φ(p)|², and with
@@ -179,27 +212,28 @@ how the histogram moves. It overlays the canonical momentum distribution N·|φ(
 
 | Function | What it does |
 |---|---|
-| `plotOnBlochSphere(x0, tmax=4)` | Spinor of the trajectory starting at `x0`, drawn on the Bloch sphere and colored by time. |
-| `plotFinalPosOnBlochSphere(t, N=100, seed=None)` | Final Bloch-sphere positions of N trajectories. |
-| `plotTimeEvolutionofBlochVars(x0, t)` | R, Θ, Ω and Φ against time for the trajectory starting at `x0`. |
+| `plotOnBlochSphere(x0, params, tmax=4)` | Spinor of the trajectory starting at `x0`, drawn on the Bloch sphere and colored by time. |
+| `plotFinalPosOnBlochSphere(t, params, N=100, seed=None)` | Final Bloch-sphere positions of N trajectories. |
+| `plotTimeEvolutionofBlochVars(x0, t, params)` | R, Θ, Ω and Φ against time for the trajectory starting at `x0`. |
 
 ### Wave function and diagnostics
 
 | Function | What it does |
 |---|---|
-| `plotProbabilityCurrentsAndVelocity(t)` | Plots j₀, j₁ and the velocity field v as functions of x at time t. |
-| `plotWaveFunc(choice, t, N=200, seed=None)` | Scatter plot of Re ψ₋ (`choice=0`) or Re ψ₊ (`choice=1`) at time t. |
-| `probability_check(t_max)` | Plots ∫ j₀ dx against time; it should stay equal to 1. |
-| `verify_solution(t, x_target)` | Difference between the closed-form solution and the independent FFT solver. |
+| `plotProbabilityCurrentsAndVelocity(t, params)` | Plots j₀, j₁ and the velocity field v as functions of x at time t. |
+| `plotWaveFunc(choice, t, params, N=200, seed=None)` | Scatter plot of Re ψ₋ (`choice=0`) or Re ψ₊ (`choice=1`) at time t. |
+| `probability_check(t_max, params)` | Plots ∫ j₀ dx against time; it should stay equal to 1. |
+| `verify_solution(params, t=1.0, x_target=0.3)` | Difference between the closed-form solution and the independent FFT solver. |
 
 ### Lower-level building blocks
 
-`g1(x, t)`, `h1(x, t)` and `amplitudes(x, t)` give the exact spinor; `j0`, `j1`, `v`, `polar_decomp`,
-`p` and `e` give the observables; `exact_spinor_grid(t)` is the FFT solver;
-`grid_bohmian_trajectories(x_init, T)` is the fast trajectory integrator;
-`canonical_momentum_density(q, branch=None)` and `positive_energy_weight(branch)` describe the
-momentum-space distribution of the packet; `sample_initial_positions(N, seed)` draws starting
-points.
+`g1(x, t, params)`, `h1(x, t, params)` and `amplitudes(x, t, params)` give the exact spinor;
+`j0`, `j1`, `v`, `polar_decomp`, `p` and `e`, all called as `f(x, t, params)`, give the observables;
+`exact_spinor_grid(t, params)` is the FFT solver;
+`grid_bohmian_trajectories(x_init, T, params)` is the fast trajectory integrator;
+`canonical_momentum_density(q, params, branch=None)` and `positive_energy_weight(params, branch=+1)`
+describe the momentum-space distribution of the packet;
+`sample_initial_positions(N, params, seed=None)` draws starting points.
 
 ## Output files
 
@@ -229,10 +263,15 @@ directories are created automatically, and file names include the parameters (`k
 
 - **Initial azimuth.** The first spinor component carries `exp(+iω/2)` and the second
   `exp(−iω/2)`, so the initial Bloch azimuth is Ω₀ = −ω. This only matters when ω is not 0 or π.
+- **Angle reduction.** `InitialParameters` accepts any real `theta` and `omega` and reduces them to
+  an equivalent pair with θ in [0, π] and ω in (−π, π]. "Equivalent" means the same spinor up to a
+  global phase, which does not change the Bohmian dynamics. For example, `theta=-0.5` is stored as
+  `theta=0.5, omega=π`, which is a different pair of numbers but the same physical state. Angles
+  that are already in range are left unchanged.
 - **Initial momentum.** The momentum `p = m cot Θ sec Ω` is computed from the spinor, not from `k`.
   For a generic initial spinor it is *not* `k` at t = 0. With θ = π/2 and ω = 0, for example, every
-  trajectory starts at p = 0 and approaches `k` only after a few time units. To start at `k`, set
-  `theta, omega = eigenstate_angles(+1)`.
+  trajectory starts at p = 0 and approaches `k` only after a few time units. To start at `k`, create
+  the parameters with `eigenstate=+1`.
 - **Singularities.** `p` and `E` diverge where cos Ω = 0, so individual trajectories can show large
   spikes at intermediate times. The histogram animation counts the trajectories that fall outside
   the plotted range in each frame.
